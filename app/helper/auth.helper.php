@@ -37,3 +37,6 @@ $username = $_SESSION['registration-data']['username'] ?? '';
 $password = $_SESSION['registration-data']['password'] ?? '';
 $confirm_password = $_SESSION['registration-data']['confirm_password'] ?? '';
 unset($_SESSION['registration-data']);
+
+$email_login = $_SESSION['login-data']['email'] ?? '';
+unset($_SESSION['login-data']);

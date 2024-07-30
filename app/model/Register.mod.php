@@ -34,4 +34,9 @@ class Register_mod
         $result = $stmt->rowCount();
         return $result > 0;
     }
+
+    public function __destruct()
+    {
+        $this->db = null;
+    }
 }

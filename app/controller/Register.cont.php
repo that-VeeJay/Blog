@@ -14,21 +14,33 @@ class Register_cont
         $this->registerModel = new Register_mod();
     }
 
+    private static function sanitizeInput($data): array
+    {
+        return [
+            'first_name' => htmlspecialchars(strip_tags(trim($_POST['first_name']))),
+            'last_name' => htmlspecialchars(strip_tags(trim($_POST['last_name']))),
+            'email' => filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL),
+            'password' => htmlspecialchars(strip_tags(trim($_POST['password']))),
+            'confirm_password' => htmlspecialchars(strip_tags(trim($_POST['confirm_password']))),
+        ];
+    }
+
     private function validateInputs($data)
     {
         $errors = [];
 
         if (empty($data['first_name'])) {
             $errors[] = 'First name is required.';
-        } elseif (!preg_match("/^[a-zA-Z]+$/", $data['first_name'])) {
-            $errors[] = 'First name can only contain alphabetic characters.';
+        } elseif (!preg_match("/^[a-zA-Z\s]+$/", $data['first_name'])) {
+            $errors[] = 'First name can only contain alphabetic characters and spaces.';
         }
 
         if (empty($data['last_name'])) {
             $errors[] = 'Last name is required.';
-        } elseif (!preg_match("/^[a-zA-Z]+$/", $data['last_name'])) {
-            $errors[] = 'Last name can only contain alphabetic characters.';
+        } elseif (!preg_match("/^[a-zA-Z\s]+$/", $data['last_name'])) {
+            $errors[] = 'Last name can only contain alphabetic characters and spaces.';
         }
+
 
         if (empty($data['email'])) {
             $errors[] = 'Email is required.';
@@ -66,13 +78,7 @@ class Register_cont
     public function register()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $data = [
-                'first_name' => htmlspecialchars(strip_tags(trim($_POST['first_name']))),
-                'last_name' => htmlspecialchars(strip_tags(trim($_POST['last_name']))),
-                'email' => filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL),
-                'password' => htmlspecialchars(strip_tags(trim($_POST['password']))),
-                'confirm_password' => htmlspecialchars(strip_tags(trim($_POST['confirm_password']))),
-            ];
+            $data = self::sanitizeInput($_POST);
 
             if ($this->validateInputs($data)) {
                 $this->registerModel->addUserToDb($data);
