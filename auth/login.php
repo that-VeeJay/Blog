@@ -2,6 +2,14 @@
 require __DIR__ . "/../config/constants.php";
 require __DIR__ . "/templates/head.php";
 require BASE_PATH . "/app/helper/auth.helper.php";
+
+if (isset($_SESSION['loggedIn-user'])) {
+    header('Location: ' . ROOT_URL . 'user/homepage.php');
+    exit();
+} elseif (isset($_SESSION['loggedIn-admin'])) {
+    header('Location: ' . ROOT_URL . 'admin/homepage.php');
+    exit();
+}
 ?>
 
 <body>
