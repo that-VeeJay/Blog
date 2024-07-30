@@ -81,3 +81,18 @@
     font-weight: 600;
     color: var(--dark-theme);
 }
+
+/* Flash Messages */
+.success {
+    background-color: #81A263;
+    border: 1.5px solid #399918;
+    padding: .5rem;
+    color: white;
+}
+
+.error {
+    background-color: #EF5A6F;
+    border: 1.5px solid #C63C51;
+    padding: .5rem;
+    color: white;
+}
